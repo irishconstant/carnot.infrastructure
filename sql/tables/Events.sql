@@ -1,0 +1,7 @@
+CREATE TABLE Events
+(
+	ID BIGINT IDENTITY(1,1)	
+	, D_Date DATETIME
+	, N_Value TINYINT 
+	, F_Edge  BIGINT 
+)
