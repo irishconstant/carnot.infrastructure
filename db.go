@@ -6,19 +6,18 @@ import (
 	"github.com/irishconstant/db/sqlserver"
 )
 
-func InitDBConnection() {
+func InitDBConnection() abstract.DatabaseConnection {
 	/*
 		Всё началось тогда, когда были выкованы мега-кольца
 		Три первых кольца задарили бесссмертным эльфам - чисто для проверки, не передохнут ли
 		Семь - коротышкам из подземных канализаций
 		Ну а девять колец задарили расе людей. И (как показала практика) напрасно...
 	*/
-
 	dbc := GetDependency()
-
 	dbc.GetConnectionParams("config.ini")
 	dbc.ConnectToDatabase()
-	defer dbc.CloseConnect()
+
+	return dbc
 }
 
 //getDependency создаёт привязку между интерфейсом и реализацией (IoC)

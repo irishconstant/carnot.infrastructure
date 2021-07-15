@@ -23,7 +23,12 @@ func (s *SQLServer) CheckPassword(login string, password string) bool {
 		rows.Scan(&passwordDB)
 	}
 
-	return CheckPasswordHash(password, passwordDB)
+	if CheckPasswordHash(password, passwordDB) {
+		fmt.Printf("Успешная аутентификация пользователя %s", login)
+		return true
+	}
+	//	fmt.Println(fmt.Sprintf("Провалена аутентификация пользователя %s", login))
+	return false
 }
 
 //HashPassword хэширует пароль

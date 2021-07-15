@@ -27,7 +27,8 @@ func (s *SQLServer) ConnectToDatabase() error {
 		fmt.Println("Не подключается к серверу баз данных: ", err.Error())
 		panic(err)
 	}
-	fmt.Println("Соединение с сервером баз данных установлено")
+
+	fmt.Println("Соединение с сервером баз данных установлено", s)
 	return err
 }
 

@@ -99,25 +99,29 @@ func (s *SQLServer) GetPersonsFiltered(u auth.User, regime int, currentPage int,
 
 //CreatePerson создаёт нового Потребителя
 func (s SQLServer) CreatePerson(c *contract.Person) error {
-	var bSex int
-	if strconv.FormatBool(c.Sex) == "true" {
-		bSex = 1
+	var sex string
+
+	if c.Sex {
+		sex = "1"
 	} else {
-		bSex = 0
+		sex = "0"
 	}
+
 	// TODO: Добавить дату рождения и прочую шнягу
-	rows, err := s.DB.Query(fmt.Sprintf("INSERT INTO Persons (C_Name, C_Family_Name, C_Patronymic_Name, B_Sex, F_Users) SELECT '%s', '%s', '%s', %d, '%s' SELECT SCOPE_IDENTITY()", c.Name, c.FamilyName, c.PatronymicName, bSex, c.User.Key))
+
+	rows, err := s.DB.Query(fmt.Sprintf("INSERT INTO Administratum.dbo.Persons (C_Name, C_Family_Name, C_Patronymic_Name, B_Sex, F_Users) SELECT '%s', '%s', '%s', %s, '%s'", c.Name, c.FamilyName, c.PatronymicName, sex, c.User.Key))
+
 	if err != nil {
 		fmt.Println("Ошибка c запросом: ", err)
 		return err
 	}
-
 	defer rows.Close()
 
 	for rows.Next() {
 		rows.Scan(&c.Key)
 	}
-	fmt.Println("Создан Потребитель с идентификатором:", c.Key)
+	//fmt.Println("Создан Потребитель с идентификатором:", c.Key)
+
 	return nil
 }
 
